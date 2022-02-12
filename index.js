@@ -56,9 +56,14 @@ async function run() {
       const newProduct = req.body;
       const result = await productCollection.insertOne(newProduct);
       console.log('got new product', req.body);
-      console.log('added product', result)
+      console.log('added product', result);
       res.json(result);
     })
+
+
+  
+
+
 
      // RooftopFarm Post
      app.post('/rooftop', async(req, res) => {
