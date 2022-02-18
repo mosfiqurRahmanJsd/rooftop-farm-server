@@ -75,10 +75,11 @@ async function run() {
 
      // RooftopFarm Post
      app.post('/rooftop', async(req, res) => {
-      const newProduct = req.body;
-      const result = await farmCollection.insertOne(newProduct);
-      console.log('got new product', req.body);
-      console.log('added product', result)
+       console.log('Hitting the post');
+      const newRooftop = req.body;
+      const result = await farmCollection.insertOne(newRooftop);
+      console.log('got new rooftop', req.body);
+      console.log('added rooftop', result);
       res.json(result);
     })
 
