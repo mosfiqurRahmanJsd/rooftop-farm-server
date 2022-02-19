@@ -46,6 +46,22 @@ async function run() {
       res.send(rooftop);
     })
 
+    // rooftop send to database
+    app.get('/blog', async (req, res) => {
+      const cursor = blogCollection.find({});
+      const blog = await cursor.toArray();
+      res.send(blog);
+    })
+
+    // GET Single Blog
+    app.get(`/blog/:id`, async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const blog = await blogCollection.findOne(query);
+      res.json(blog);
+    })
+
+
 
 
     // GET Single Service
