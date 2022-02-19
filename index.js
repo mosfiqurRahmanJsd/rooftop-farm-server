@@ -25,10 +25,11 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
   try {
     await client.connect();
-    const database = client.db('rooftop'); 
-    
+    const database = client.db('rooftop');
+
     const productCollection = database.collection('product');
     const farmCollection = database.collection('farm');
+    const blogCollection = database.collection('blog');
 
     // GET API
     // product sent to database
@@ -45,22 +46,22 @@ async function run() {
       res.send(rooftop);
     })
 
-    
-     
+
+
     // GET Single Service
     app.get(`/rooftop/:id`, async (req, res) => {
       const id = req.params.id;
-      const query = {_id: ObjectId(id)};
+      const query = { _id: ObjectId(id) };
       const rooftop = await farmCollection.findOne(query);
       res.json(rooftop);
     })
 
 
-   
+
 
     // POST API 
     // Product Post
-    app.post('/product', async(req, res) => {
+    app.post('/product', async (req, res) => {
       const newProduct = req.body;
       const result = await productCollection.insertOne(newProduct);
       console.log('got new product', req.body);
@@ -69,13 +70,21 @@ async function run() {
     })
 
 
-  
+    // Blog Post
+    app.post('/blog', async (req, res) => {
+      console.log('Hitting the post');
+      const newBlog = req.body;
+      const result = await blogCollection.insertOne(newBlog);
+      console.log('got new rooftop', req.body);
+      console.log('added rooftop', result);
+      res.json(result);
+    })
 
 
 
-     // RooftopFarm Post
-     app.post('/rooftop', async(req, res) => {
-       console.log('Hitting the post');
+    // RooftopFarm Post
+    app.post('/rooftop', async (req, res) => {
+      console.log('Hitting the post');
       const newRooftop = req.body;
       const result = await farmCollection.insertOne(newRooftop);
       console.log('got new rooftop', req.body);
