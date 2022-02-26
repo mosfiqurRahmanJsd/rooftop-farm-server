@@ -20,6 +20,7 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.quauy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
+
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function run() {
@@ -30,6 +31,7 @@ async function run() {
     const productCollection = database.collection('product');
     const farmCollection = database.collection('farm');
     const blogCollection = database.collection('blog');
+    const paymentCollection = database.collection('payment');
 
     // GET API
     // product sent to database
@@ -73,6 +75,13 @@ async function run() {
     })
 
 
+      // Get payment Information
+      app.get('/payment', async (req, res) => {
+        const cursor = paymentCollection.find({});
+        const payment = await cursor.toArray();
+        res.send(payment);
+      })
+
 
 
     // POST API 
@@ -107,6 +116,18 @@ async function run() {
       console.log('added rooftop', result);
       res.json(result);
     })
+
+
+    // Payment Post
+    app.post('/payment', async (req, res) => {
+      console.log('Hitting the payment');
+      const payment = req.body;
+      const result = await paymentCollection.insertOne(payment);
+      console.log('got new payment', req.body);
+      console.log('added payment', result);
+      res.json(result);
+    })
+
 
 
 
