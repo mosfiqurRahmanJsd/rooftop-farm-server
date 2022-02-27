@@ -85,6 +85,19 @@ async function run() {
         res.send(payment);
       })
 
+      // Get payment Information
+      app.get('/payment', async (req, res) => {
+        const trnxID = req.query.trnxID;
+        const query = {trnxID: trnxID};
+        console.log(query);
+        const cursor = paymentCollection.find(query);
+        const payment = await cursor.toArray();
+        res.send(payment);
+      })
+
+
+      
+
 
 
     // POST API 
