@@ -77,7 +77,10 @@ async function run() {
 
       // Get payment Information
       app.get('/payment', async (req, res) => {
-        const cursor = paymentCollection.find({});
+        const email = req.query.email;
+        const query = {email: email};
+        console.log(query);
+        const cursor = paymentCollection.find(query);
         const payment = await cursor.toArray();
         res.send(payment);
       })
