@@ -32,6 +32,7 @@ async function run() {
     const farmCollection = database.collection('farm');
     const blogCollection = database.collection('blog');
     const paymentCollection = database.collection('payment');
+    const entrepreneurCollection = database.collection('email');
 
     // GET API
     // product sent to database
@@ -75,28 +76,41 @@ async function run() {
     })
 
 
-      // Get payment Information
-      app.get('/payment', async (req, res) => {
-        const email = req.query.email;
-        const query = {email: email};
-        console.log(query);
-        const cursor = paymentCollection.find(query);
-        const payment = await cursor.toArray();
-        res.send(payment);
-      })
-
-      // Get payment Information
-      app.get('/payment', async (req, res) => {
-        const trnxID = req.query.trnxID;
-        const query = {trnxID: trnxID};
-        console.log(query);
-        const cursor = paymentCollection.find(query);
-        const payment = await cursor.toArray();
-        res.send(payment);
-      })
+    // Get payment Information
+    app.get('/payment', async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const cursor = paymentCollection.find(query);
+      const payment = await cursor.toArray();
+      res.send(payment);
+    })
 
 
-      
+    // get entrepreneur
+    app.get('/entrepreneur', async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const cursor = entrepreneurCollection.find(query);
+      const entrepreneur = await cursor.toArray();
+      res.json(entrepreneur);
+    })
+
+
+
+
+    // Product Post
+    app.post('/entrepreneur', async (req, res) => {
+      const newEntrepreneur = req.body;
+      const result = await entrepreneurCollection.insertOne(newEntrepreneur);
+      console.log('got new entrepreneur', req.body);
+      console.log('added entrepreneur', result);
+      res.json(result);
+    })
+
+
+
+
+
 
 
 
