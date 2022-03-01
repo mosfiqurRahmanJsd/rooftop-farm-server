@@ -140,11 +140,38 @@ async function run() {
     // RooftopFarm Post
     app.post('/rooftop', async (req, res) => {
       console.log('Hitting the post');
-      const newRooftop = req.body;
+      const square = req.body.square;
+      const location = req.body.location;
+      const pic = req.files.image;
+      const picData = pic.data;
+      const encodedPic = picData.toString('base64');
+      const imgBuffer = Buffer.from(encodedPic, 'base64');
+      const map = req.body.map;
+      const details = req.body.details;
+      const moreDetail = req.body.moreDetail;
+      const phone = req.body.phone;
+      const email = req.body.email;
+      const price = req.body.price;
+      const name = req.body.name;
+
+      const newRooftop = { 
+        square, 
+        location,
+        pic, 
+        pic: imgBuffer,
+        map, 
+        details,
+        moreDetail,
+        phone,
+        email,
+        price,
+        name
+      }
+
       const result = await farmCollection.insertOne(newRooftop);
-      console.log('got new rooftop', req.body);
+      console.log('got new rooftop', req.files);
       console.log('added rooftop', result);
-      res.json(result);
+      res.json({success: true});
     })
 
 
